@@ -1,0 +1,81 @@
+#!/bin/bash
+
+NAME=bmstools
+PYTHON_DAEMON=/usr/local/bin/python
+DAEMON=/usr/bin/bmstools
+PIDFILE=/var/run/cdsstack/$NAME.pid
+
+# start function
+start() {
+    if [ -e "$PIDFILE" ]; then
+        echo "Error! $NAME is current running!" 1>&2
+        exit 1
+    else
+        echo "Starting $NAME..."
+        $PYTHON_DAEMON $DAEMON 2>&1 > /var/log/$NAME &
+        echo "$NAME start success!"
+    fi
+}
+
+# stop function
+stop() {
+    if [ ! -f $PIDFILE ]; then
+        echo "Error! $NAME is stopped."
+        exit 1
+    else
+        echo "Stopping $NAME..."
+        PID=`cat $PIDFILE`
+        kill -9 $PID 2>&1 > /var/log/$NAME &
+        rm $PIDFILE
+        echo "$NAME stop success!"
+    fi
+}
+# restart function
+restart() {
+    start
+    stop
+}
+
+#status function
+status() {
+    pidfile=$PIDFILE
+    if [ ! -f $pidfile ]; then
+        echo "cdsstack bmstools is stopped"
+        exit 1
+    else
+        pid=`cat $pidfile`
+        ps -p $pid > /dev/null
+        if [ $? -eq 0 ]; then
+            echo "cdsstack bmstools is running, pid is $pid"
+            exit 0
+        else
+            echo "cdsstack bmstools is stopped, but pidfile at $pidfile is not cleaned.
+            It may be caused by bmstools crashed at last time, manually cleaning it would be ok"
+            exit 1
+        fi
+    fi
+}
+
+
+case "$1" in
+    start)
+        start
+        exit 0
+        ;;
+    stop)
+        stop
+        exit 0
+        ;;
+    restart|reload)
+        stop
+        sleep 2
+        start
+        exit 0
+        ;;
+    status)
+        status
+        ;;
+    *)
+        echo $"Usage: $0 {start|stop|restart|status}"
+        exit 1
+esac

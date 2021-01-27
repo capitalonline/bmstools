@@ -1,0 +1,10 @@
+[Unit]
+Description=bmstools service
+
+[Service]
+Restart=always
+User=root
+ExecStart=/usr/bin/bmstools
+
+[Install]
+WantedBy=multi-user.target
