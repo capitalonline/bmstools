@@ -22,9 +22,20 @@ bmstools是一个在首云裸金属服务器操作系统中代理的工具，在
 
 在裸金属服务器内执行如下命令：
 
+centos7或rhel7
+
 ```sh
-# curl -fsSL -o bmstools.rpm https://capitalonline.net/bms/soft/bmstools.rpm
+# curl -fsSL -o bmstools.rpm https://github.com/capitalonline/bmstools/releases/download/v1.1.4/bmstools-1.1.4.el7.x86_64.rpm
 # rpm -ivh bmstools.rpm
+# systemctl start bmstools
+# systemctl status bmstools
+```
+
+ubuntu
+
+```sh
+# curl -fsSL -o bmstools.deb https://github.com/capitalonline/bmstools/releases/download/v1.1.4/bmstools_1.1.4_amd64.deb
+# dpkg -i bmstools.deb
 # systemctl start bmstools
 # systemctl status bmstools
 ```
