@@ -8,8 +8,8 @@ bmstools是一个在首云裸金属服务器操作系统中代理的工具，在
 登录裸金属服务器执行以下命令来下载当前服务器的认证证书：
 
 ```shell
-# curl -sk https://capitalonline.net/bms/${bmId}/bmstools/certs/private > /usr/lib/bmstools/auth/private.pem
-# curl -sk https://capitalonline.net/bms/${bmId}/bmstools/certs/public > /usr/lib/bmstools/auth/public.pem
+# curl -fsSL -o /usr/lib/bmstools/auth/private.pem https://capitalonline.net/bms/${bmId}/bmstools/certs/private
+# curl -fsSL -o /usr/lib/bmstools/auth/public.pem https://capitalonline.net/bms/${bmId}/bmstools/certs/public
 ```
 
 **注意：需将上述url中的${bmId}替换为当前裸金属服务器在GIC控制台的编号ID。**
